@@ -1,4 +1,3 @@
-<!-- Flatpickr -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
@@ -9,7 +8,6 @@
 
 <div id="imageGallery" style="overflow-x:auto;"></div>
 
-<!-- Modal Viewer -->
 <div id="imageModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#000000c9;align-items:center;justify-content:center;z-index:1000;">
     <div onclick="closeModal()" style="position:absolute;top:20px;right:20px;color:#fff;font-size:24px;cursor:pointer;">✖</div>
     <img id="modalImage" src="" style="max-width:90%;max-height:90%;">
@@ -124,7 +122,11 @@ async function deleteImage(id) {
     try {
         const result = JSON.parse(text);
         alert(result.success ? "✅ Deleted" : "❌ Delete failed: " + (result.message || ''));
-        if (result.success) loadUploadedImages();
+        if (result.success) {
+            loadUploadedImages();
+            // Trigger event to refresh the form dropdown (name reappears in list)
+            window.dispatchEvent(new Event('uim_refresh_names'));
+        }
     } catch (e) {
         alert("❌ Error: " + text);
     }
